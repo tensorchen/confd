@@ -20,6 +20,7 @@ import (
 	util "github.com/kelseyhightower/confd/util"
 	"github.com/kelseyhightower/memkv"
 	"github.com/xordataexchange/crypt/encoding/secconf"
+	"github.com/Masterminds/sprig"
 )
 
 type Config struct {
@@ -88,6 +89,7 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 	tr.store = memkv.New()
 	tr.syncOnly = config.SyncOnly
 	addFuncs(tr.funcMap, tr.store.FuncMap)
+	addFuncs(tr.funcMap, sprig.TxtFuncMap())
 
 	if config.Prefix != "" {
 		tr.Prefix = config.Prefix
